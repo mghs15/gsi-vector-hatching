@@ -6,7 +6,6 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
-<script src='./addGsiHatchImage.js'></script>
 <style>
 body { margin:0; padding:0; }
 #map {
@@ -35,6 +34,7 @@ var map = new mapboxgl.Map({
 
 //fill-pattern,icon-image用のImageがないときに、追加処理を行う。
 //（参考）https://docs.mapbox.com/mapbox-gl-js/example/add-image-missing-generated/
+/*
 map.on('styleimagemissing', function (e) {
   
   var imgid = e.id;
@@ -44,11 +44,13 @@ map.on('styleimagemissing', function (e) {
   map.addImage(imgid, { width: hatchImg.size, height: hatchImg.size, data: hatchImg.data });
   
 });
+*/
 
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 map.addControl(new mapboxgl.ScaleControl() );
 
 </script>
- 
+
+<script src='./addGsiHatchImage.js'></script>
 </body>
 </html>
