@@ -5,6 +5,18 @@
 https://github.com/gsi-cyberjapan/gsimaps-vector-experiment/blob/master/js/src/map/hatch-imagemanager.js
 ******************************************/
 
+/*****************************************
+// 赤 点
+* "-gsibv-hatch-dot-4-255,0,0,1-"
+
+// 橙 網目
+* "-gsibv-hatch-plus-4-255,100,0,1-"
+
+// 黒 箱状
+* "-gsibv-hatch-box-4-255,0,0,1-"
+
+******************************************/
+
 
 var convertGsiHatchImage = function(hatchId){
 
@@ -93,7 +105,7 @@ var drawGsiHatch = function(data, type, size, color, bgColor) {
 
       case "dot":
         var x = 1;
-        var y = 2;
+        var y = 1; // 変更
         var idx = (y * size * 4) + x * 4;
         data[idx] = color.r;
         data[idx + 1] = color.g;
@@ -101,6 +113,35 @@ var drawGsiHatch = function(data, type, size, color, bgColor) {
         data[idx + 3] = color.a * 255;
         break;
 
+      // 追加
+      case "box":
+        for (var x = 0; x < size; x++) {
+          for (var y = 0; y < size; y++) {
+            if(x<3 && y<3 && !(x == 1 && y == 1)){
+              var idx = (y * size * 4) + x * 4;
+              data[idx] = color.r;
+              data[idx + 1] = color.g;
+              data[idx + 2] = color.b;
+              data[idx + 3] = color.a * 255;
+            }
+          }
+        }
+        break;
+        
+      // 追加
+      case "plus":
+        for (var x = 0; x < size; x++) {
+          for (var y = 0; y < size; y++) {
+            if(x<1 || y<1){
+              var idx = (y * size * 4) + x * 4;
+              data[idx] = color.r;
+              data[idx + 1] = color.g;
+              data[idx + 2] = color.b;
+              data[idx + 3] = color.a * 255;
+            }
+          }
+        }
+        break;
     }
 
     // 右下→左上のライン描画
@@ -120,3 +161,17 @@ var drawGsiHatch = function(data, type, size, color, bgColor) {
     return data;
 
 }
+
+
+//fill-pattern,icon-image用のImageがないときに、追加処理を行う。
+//（参考）https://docs.mapbox.com/mapbox-gl-js/example/add-image-missing-generated/
+map.on('styleimagemissing', function (e) {
+  
+  var imgid = e.id;
+  var hatchImg = convertGsiHatchImage(imgid);
+  if(!hatchImg) return;
+  
+  map.addImage(imgid, { width: hatchImg.size, height: hatchImg.size, data: hatchImg.data });
+  
+});
+
