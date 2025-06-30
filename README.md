@@ -11,6 +11,21 @@
 Mapbox GL JS/MapLibre GL JS の map オブジェクトを `map` として作成した後、
 このレポジトリの`addGsiHatchImage.js`を取り込む。
 
+```
+<script>
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  hash: true, //add #position on URL
+  style: './style.json', // stylesheet location
+  center: [139.78148, 35.768793], // starting position [lng, lat]
+  zoom: 15, // starting zoom
+  maxZoom: 18,
+  localIdeographFontFamily: "MS Gothic"
+});
+</script>
+<script src='./addGsiHatchImage.js'></script>
+```
+
 ## 参考文献
 * [地理院地図Vector（仮称）のソースコード](https://github.com/gsi-cyberjapan/gsimaps-vector-experiment)
 * [Mapbox GL JS ドキュメント](https://docs.mapbox.com/mapbox-gl-js/style-spec/)
